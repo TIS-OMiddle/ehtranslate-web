@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon, SearchBar, Popover } from 'antd-mobile';
+import { useTranslate } from '@/hooks/useTranslate';
 
 const Item = Popover.Item;
 
@@ -10,6 +11,9 @@ interface HeaderProps {
 export function Header({ onSearch }: HeaderProps) {
   const [search, setSearch] = useState('');
   const [popVisible, setPopVisible] = useState(false);
+  const {
+    data: { head, data },
+  } = useTranslate();
 
   return (
     <div className="flex items-center px-2" style={{ background: '#efeff4' }}>
