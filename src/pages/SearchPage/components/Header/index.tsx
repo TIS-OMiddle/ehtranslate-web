@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Icon, SearchBar, Popover } from 'antd-mobile';
 import { useTranslate } from '@/hooks/useTranslate';
 
@@ -6,36 +6,55 @@ const Item = Popover.Item;
 
 interface HeaderProps {
   onSearch: (value: string) => void;
+  onNamespacesChange: (namespaces: string[]) => void;
 }
 
-export function Header({ onSearch }: HeaderProps) {
+export function Header({ onSearch, onNamespacesChange: onNamespaceChange }: HeaderProps) {
   const [search, setSearch] = useState('');
-  const [popVisible, setPopVisible] = useState(false);
-  const {
-    data: { head, data },
-  } = useTranslate();
+  const [namespaces, setNamespaces] = useState<string[]>([]);
+  const data = useTranslate();
+
+  const menus = useMemo(() => {
+    return data.map(item => (
+      <Item
+        key={item.namespace}
+        className={namespaces.includes(item.namespace) ? 'text-blue-500' : ''}
+        icon={<Icon type="check" />}
+      >
+        {item.name}
+      </Item>
+    ));
+  }, [data, namespaces]);
 
   return (
     <div className="flex items-center px-2" style={{ background: '#efeff4' }}>
       <Popover
         placement="bottomLeft"
-        visible={popVisible}
-        onSelect={(node, index) => {
-          console.log('ljh', node, index);
-          setPopVisible(false);
+        onSelect={node => {
+          let newNamespaces = [...namespaces];
+          if (newNamespaces.includes(node.key)) {
+            newNamespaces = newNamespaces.filter(item => item !== node.key);
+          } else {
+            newNamespaces.push(node.key);
+          }
+          setNamespaces(newNamespaces);
+          onNamespaceChange(newNamespaces);
         }}
-        onVisibleChange={setPopVisible}
-        overlay={[
-          <Item key="0">Scan</Item>,
-          <Item key="1">My Qrcode</Item>,
-          <Item key="2">
-            <span style={{ marginRight: 5 }}>Help</span>
-          </Item>,
-        ]}
+        overlay={menus}
       >
-        <Icon key="1" type="ellipsis" className="text-gray-800" />
+        <Icon type="ellipsis" className="text-gray-800" />
       </Popover>
-      <SearchBar className="flex-1" value={search} onChange={setSearch} onSubmit={onSearch} placeholder="Search..." />
+      <SearchBar
+        className="flex-1"
+        value={search}
+        onChange={setSearch}
+        onSubmit={onSearch}
+        onCancel={() => {
+          setSearch('');
+          onSearch('');
+        }}
+        placeholder="Search..."
+      />
     </div>
   );
 }

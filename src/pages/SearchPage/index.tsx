@@ -1,12 +1,14 @@
-import { useTranslate } from '@/hooks/useTranslate';
+import { useRawTranslate } from '@/hooks/useTranslate';
 import { ActivityIndicator } from 'antd-mobile';
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Latest } from './components/Latest';
+import { SearchResult } from './components/SearchResult';
 
 export function SearchPage() {
-  const [text, setText] = useState('');
-  const { loading } = useTranslate();
+  const [search, setSearch] = useState('');
+  const [namespace, setNamespace] = useState<string[]>([]);
+  const { loading } = useRawTranslate();
 
   if (loading) {
     return (
@@ -18,10 +20,9 @@ export function SearchPage() {
 
   return (
     <div>
-      <Header onSearch={setText} />
-      <div className="p-4 text-gray-900">
-        <Latest />
-        {text}
+      <Header onSearch={setSearch} onNamespacesChange={setNamespace} />
+      <div className="p-2 text-gray-900">
+        {search ? <SearchResult search={search} namespaces={namespace} /> : <Latest />}
       </div>
     </div>
   );

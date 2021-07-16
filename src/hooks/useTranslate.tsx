@@ -1,6 +1,16 @@
 import { localStore } from '@/utils/localStore';
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useEffect, useState } from 'react';
+
+export type TranslateDataItem = {
+  count: number;
+  namespace: string;
+  name: string;
+  description: string;
+  keys: string[];
+  keyMap: Record<string, { name: { text: string }; intro: { text: string } }>;
+};
+export type TranslateData = TranslateDataItem[];
 
 const TRANSLATE_KEY = 'TRANSLATE_KEY';
 
@@ -28,6 +38,24 @@ export const TranslateContextProvider: React.FC<{}> = ({ children }) => {
   return <TranslateContext.Provider value={value}>{children}</TranslateContext.Provider>;
 };
 
-export function useTranslate() {
+export function useRawTranslate() {
   return useContext(TranslateContext);
+}
+
+export function useTranslate(): TranslateData {
+  const {
+    data: { data },
+  } = useRawTranslate();
+  return useMemo(() => {
+    return data
+      .filter(item => item.namespace !== 'rows')
+      .map(item => ({
+        count: item.count,
+        namespace: item.namespace,
+        name: item.frontMatters.name,
+        description: item.frontMatters.description,
+        keys: Object.keys(item.data),
+        keyMap: item.data,
+      }));
+  }, [data]);
 }
