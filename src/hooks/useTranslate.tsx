@@ -22,7 +22,9 @@ async function getData(force = false) {
   if (res && !force) {
     res = JSON.parse(res);
   } else {
-    res = await (await fetch('/data/db.full.json')).json();
+    res = await (
+      await fetch('https://cdn.jsdelivr.net/gh/EhTagTranslation/DatabaseReleases@master/db.full.json')
+    ).json();
     localStore.setItem(TRANSLATE_KEY, JSON.stringify(res));
   }
   return res;

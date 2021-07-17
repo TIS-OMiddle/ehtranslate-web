@@ -28,9 +28,9 @@ export default defineConfig({
         ignoreStyles: null,
       },
     ]),
-    copy({
-      targets: [{ src: './data/', dest: './dist' }],
-      hook: 'writeBundle',
-    }),
+    // copy({
+    //   targets: [{ src: './data/', dest: './dist' }],
+    //   hook: 'writeBundle',
+    // }),
   ],
 });
