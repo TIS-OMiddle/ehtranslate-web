@@ -8,3 +8,4 @@ data
 ./src/script
 vite.config.ts
 postcss.config.js
+script
