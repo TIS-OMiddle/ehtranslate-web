@@ -25,13 +25,7 @@ export function SearchResult({ search, namespaces }: { search: string; namespace
   return (
     <>
       {list.map(info => (
-        <TranslateDetail
-          key={info.key}
-          id={info.key}
-          namespace={info.namespace}
-          name={info.name.text}
-          intro={info.intro.text}
-        />
+        <TranslateDetail key={info.key} info={info} />
       ))}
     </>
   );

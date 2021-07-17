@@ -16,11 +16,7 @@ export function Header({ onSearch, onNamespacesChange: onNamespaceChange }: Head
 
   const menus = useMemo(() => {
     return data.map(item => (
-      <Item
-        key={item.namespace}
-        className={namespaces.includes(item.namespace) ? 'text-blue-500' : ''}
-        icon={<Icon type="check" />}
-      >
+      <Item key={item.namespace} className={namespaces.includes(item.namespace) ? 'text-blue-500' : ''}>
         {item.name}
       </Item>
     ));

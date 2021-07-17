@@ -13,26 +13,31 @@ clipboard.on('error', function (e) {
 });
 
 interface TranslateDetailProps {
-  id: string;
-  namespace: string;
-  name: string;
-  intro: string;
+  info: {
+    name: {
+      text: string;
+    };
+    intro: {
+      html: string;
+    };
+  } & {
+    key: string;
+    namespace: string;
+  };
 }
 
-export function TranslateDetail({ intro, id, name, namespace }: TranslateDetailProps) {
+export function TranslateDetail({ info }: TranslateDetailProps) {
   return (
-    <div className="flex items-center p-2 bg-pink-200 mb-2 rounded shadow">
-      <span className="flex-1 mr-1">
-        <span className="font-semibold mr-1">{name}:</span>
-        <span>
-          {namespace}:{id}
-        </span>
-      </span>
-      <Button inline size="small" type="primary">
-        <button className="copy-btn" data-clipboard-text={`${namespace}:"${id}"`}>
-          复制
-        </button>
-      </Button>
+    <div className="flex flex-col p-2 bg-pink-200 mb-2 rounded shadow">
+      <div className="flex justify-end items-center">
+        <span className="mr-1 font-semibold">{info.name.text}</span>
+        <Button inline size="small" type="primary">
+          <button className="copy-btn" data-clipboard-text={`${info.namespace}:"${info.key}"`}>
+            复制
+          </button>
+        </Button>
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: info.intro.html }} />
     </div>
   );
 }

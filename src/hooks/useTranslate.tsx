@@ -8,7 +8,7 @@ export type TranslateDataItem = {
   name: string;
   description: string;
   keys: string[];
-  keyMap: Record<string, { name: { text: string }; intro: { text: string } }>;
+  keyMap: Record<string, { name: { text: string }; intro: { html: string } }>;
 };
 export type TranslateData = TranslateDataItem[];
 
