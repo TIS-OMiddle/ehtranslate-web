@@ -14,6 +14,7 @@
     "antd-mobile": "^2.3.4",
     "autoprefixer": "^9",
     "clipboard": "^2.0.8",
+    "dayjs": "^1.10.6",
     "indexof": "^0.0.1",
     "localforage": "^1.9.0",
     "lodash-es": "^4.17.21",

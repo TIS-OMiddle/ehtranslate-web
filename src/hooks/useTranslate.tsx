@@ -1,5 +1,5 @@
 import { localStore } from '@/utils/localStore';
-import React, { useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { useEffect, useState } from 'react';
 
 export type TranslateDataItem = {
@@ -15,11 +15,11 @@ export type TranslateData = TranslateDataItem[];
 const TRANSLATE_KEY = 'TRANSLATE_KEY';
 
 const defaultValue = { data: null as any, loading: true };
-const TranslateContext = React.createContext(defaultValue);
+const TranslateContext = React.createContext({ ...defaultValue, refetchData: () => {} });
 
-async function getData() {
+async function getData(force = false) {
   let res: any = await localStore.getItem(TRANSLATE_KEY);
-  if (res) {
+  if (res && !force) {
     res = JSON.parse(res);
   } else {
     res = await (await fetch('/data/db.full.json')).json();
@@ -31,11 +31,16 @@ async function getData() {
 export const TranslateContextProvider: React.FC = ({ children }) => {
   const [value, setValue] = useState(defaultValue);
 
+  const refetchData = useCallback(() => {
+    setValue(defaultValue);
+    getData(true).then(data => setValue({ data, loading: false }));
+  }, []);
+
   useEffect(() => {
     getData().then(data => setValue({ data, loading: false }));
   }, []);
 
-  return <TranslateContext.Provider value={value}>{children}</TranslateContext.Provider>;
+  return <TranslateContext.Provider value={{ ...value, refetchData }}>{children}</TranslateContext.Provider>;
 };
 
 export function useRawTranslate() {
