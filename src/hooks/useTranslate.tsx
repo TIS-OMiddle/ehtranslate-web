@@ -16,15 +16,16 @@ const TRANSLATE_KEY = 'TRANSLATE_KEY';
 
 const defaultValue = { data: null as any, loading: true };
 const TranslateContext = React.createContext({ ...defaultValue, refetchData: () => {} });
+const dataURL = import.meta.env.PROD
+  ? 'https://cdn.jsdelivr.net/gh/EhTagTranslation/DatabaseReleases@master/db.full.json'
+  : '/data/db.full.json';
 
 async function getData(force = false) {
   let res: any = await localStore.getItem(TRANSLATE_KEY);
   if (res && !force) {
     res = JSON.parse(res);
   } else {
-    res = await (
-      await fetch('https://cdn.jsdelivr.net/gh/EhTagTranslation/DatabaseReleases@master/db.full.json')
-    ).json();
+    res = await (await fetch(dataURL)).json();
     localStore.setItem(TRANSLATE_KEY, JSON.stringify(res));
   }
   return res;
