@@ -1,6 +1,6 @@
-import { Button, Toast } from 'antd-mobile';
+import { Button, Icon, Toast } from 'antd-mobile';
 import Clipboard from 'clipboard';
-import React from 'react';
+import React, { useState } from 'react';
 
 const clipboard = new Clipboard('.copy-btn');
 
@@ -27,17 +27,23 @@ interface TranslateDetailProps {
 }
 
 export function TranslateDetail({ info }: TranslateDetailProps) {
+  const expandable = !!info.intro.html;
+  const [expand, setExpand] = useState(false);
+
   return (
     <div className="flex flex-col p-2 bg-pink-200 mb-2 rounded shadow">
-      <div className="flex justify-end items-center">
-        <span className="mr-1 font-semibold">{info.name.text}</span>
+      <div className="flex justify-between items-center bg-pink-200 sticky top-11">
+        <div className="flex flex-1 items-center" onClick={() => setExpand(v => !v)}>
+          {expandable && <Icon type={expand ? 'up' : 'down'} />}
+          <span className="font-semibold">{info.name.text}</span>
+        </div>
         <Button inline size="small" type="primary">
           <button className="copy-btn" data-clipboard-text={`${info.namespace}:"${info.key}"`}>
             复制
           </button>
         </Button>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: info.intro.html }} />
+      {expand && <div dangerouslySetInnerHTML={{ __html: info.intro.html }} />}
     </div>
   );
 }

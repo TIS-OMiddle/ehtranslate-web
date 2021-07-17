@@ -23,8 +23,9 @@ export function Header({ onSearch, onNamespacesChange: onNamespaceChange }: Head
   }, [data, namespaces]);
 
   return (
-    <div className="flex items-center px-2" style={{ background: '#efeff4' }}>
+    <div className="flex items-center px-2 sticky top-0 z-10" style={{ background: '#efeff4' }}>
       <Popover
+        mask
         placement="bottomLeft"
         onSelect={node => {
           let newNamespaces = [...namespaces];
