@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Icon, SearchBar, Popover } from 'antd-mobile';
 import { useTranslate } from '@/hooks/useTranslate';
 
-const Item = Popover.Item;
+const { Item } = Popover;
 
 interface HeaderProps {
   onSearch: (value: string) => void;

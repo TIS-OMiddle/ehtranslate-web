@@ -4,11 +4,11 @@ import React from 'react';
 
 const clipboard = new Clipboard('.copy-btn');
 
-clipboard.on('success', function (e) {
+clipboard.on('success', e => {
   Toast.success(`复制 '${e.text}' 成功`);
   e.clearSelection();
 });
-clipboard.on('error', function (e) {
+clipboard.on('error', e => {
   Toast.fail(`复制 '${e.text}' 失败`);
 });
 

@@ -28,7 +28,7 @@ async function getData() {
   return res;
 }
 
-export const TranslateContextProvider: React.FC<{}> = ({ children }) => {
+export const TranslateContextProvider: React.FC = ({ children }) => {
   const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
