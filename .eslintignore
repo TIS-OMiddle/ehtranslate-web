@@ -6,3 +6,5 @@ package.json
 dist
 data
 ./src/script
+vite.config.ts
+postcss.config.js
