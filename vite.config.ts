@@ -1,14 +1,17 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import vitePluginImport from 'vite-plugin-babel-import';
-import copy from 'rollup-plugin-copy';
 import { resolve } from 'path';
-console.log(process.env);
+
+function getBase() {
+  if (process.env.SITE === 'gh') return 'https://cdn.jsdelivr.net/gh/tis-omiddle/ehtranslate-web@gh-pages';
+  return '/'
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base:
-    process.env.NODE_ENV === 'production' ? 'https://cdn.jsdelivr.net/gh/tis-omiddle/ehtranslate-web@gh-pages' : '/',
+    process.env.NODE_ENV === 'production' ? getBase() : '/',
   build: {
     commonjsOptions: {
       transformMixedEsModules: true,

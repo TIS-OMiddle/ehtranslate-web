@@ -4,6 +4,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
+    "build:gh": "cross-env SITE=gh vite build",
     "serve": "vite preview",
     "update:data": "node ./script/downloadData.js",
     "upload": "node ./script/upload.js",
@@ -16,6 +17,7 @@
     "antd-mobile": "^2.3.4",
     "autoprefixer": "^9",
     "clipboard": "^2.0.8",
+    "cross-env": "^7.0.3",
     "dayjs": "^1.10.6",
     "gh-pages": "^3.2.3",
     "indexof": "^0.0.1",
